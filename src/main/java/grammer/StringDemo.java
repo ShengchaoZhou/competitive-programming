@@ -9,12 +9,17 @@ public class StringDemo {
         str.equalsIgnoreCase("hello world!"); // 判断字符串是否相等（忽略大小写）
         str.toCharArray(); // 转换为字符数组
         new String(new char[10]); // 字符数组转换成字符串
+        new String(new char[10], 0, 10); // 偏移量和数量
         str.charAt(0);
-        str.substring(0, 5); // 截取子串，起始索引包含，结束索引不包含
-        str.isEmpty(); // 判断字符串是否为空
+        str.substring(0, 5); // [start, end)
+        str.isEmpty();
+        Character.isDigit('5');
 
         /*----------------------偶尔--------------------*/
-        "abc".compareTo("abd"); // 字符串按字典顺序比较大小
+        int cmp = "abc".compareTo("abd"); // 字符串按字典顺序比较大小，返回结果为int类型
+        String.valueOf(123); // 重载了各种类型
+        Integer.parseInt("123"); // 字符串转化为int类型
+        Integer.valueOf("123");
         str.contains("World"); // 判断是否包含某个子串
         String csv = "apple,banana,orange";
         csv.split(","); // 按指定分隔符分割字符串

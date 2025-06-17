@@ -28,7 +28,7 @@ public class basic001001QuickSort {
         // i，j提前往外移一次
         int x = q[l], i = l - 1, j = r + 1;
         while (i < j) {
-            // 不能写成q[i] <= x
+            // 不能写成q[i] <= x，会下标越界
             do i++; while (q[i] < x);
             do j--; while (q[j] > x);
             if (i < j) {
@@ -37,8 +37,8 @@ public class basic001001QuickSort {
                 q[j] = t;
             }
         }
-        // x = q[l]，取左边界所以必须是j，j + 1
-        // i = j 或者 i = j + 1，所以不能用i
+        // x = q[l]，取左边界或取l + r >> 1，所以必须以j作为分界点
+        // 最终i不一定等于j，若以i为分界点，会造成无限划分，导致无限递归
         quickSort(q, l, j);
         quickSort(q, j + 1, r);
     }

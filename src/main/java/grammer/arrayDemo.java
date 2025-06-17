@@ -25,7 +25,7 @@ public class arrayDemo {
     // 简写 static int[] arr5 = {1, 2, 3, 4};
     static int[] arr5 = new int[]{1, 2, 3, 4};
 
-    // 另一种写法：static int[][] arr6 = new int[N][2];
+    // 另一种写法：static int[][] arr6 = new int[N][2]; 直接确定二维矩阵，推荐
     static int[][] arr6 = new int[N][];
 
     public static void main(String[] args) {
@@ -34,8 +34,12 @@ public class arrayDemo {
             arr3.add(i); // ArrayList
         }
 
+        /**
+         * 二维数组初始化问题
+         */
         // 错误写法1：arr6[0] = new int[2]{1, 2};
         // 错误写法2：arr6[0] = {1, 2};
+        // 错误写法3：for (int[] r : arr6) r = new int[2]; for-each的r只是一个引用
         arr6[0] = new int[]{1, 2};
 
         /**
@@ -80,10 +84,19 @@ public class arrayDemo {
         for (int[] r : arr4) Arrays.fill(r, 4); // int[][]
 
         /**
-         * 转化为集合
+         * 数组转化为集合
          */
+        List<Integer> list1 = Arrays.asList(1, 2, 3);
         List<Integer> list = Arrays.asList(arr2); // int[]不行，Integer[]可以
         System.out.println(list);
+
+        /**
+         * 集合转化为数组
+         */
+        List<Integer> list2 = Arrays.asList(1, 2, 3);
+        Integer[] array2 = list2.toArray(new Integer[list2.size()]);
+        List<int[]> list3 = Arrays.asList(new int[]{1, 2}, new int[]{3, 4});
+        int[][] array3 = list3.toArray(new int[0][]);
 
         /**
          * 比较两个数组值是否相同

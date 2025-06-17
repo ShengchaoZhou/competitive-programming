@@ -14,6 +14,7 @@ public class HashMapDemo {
         hash.putIfAbsent(2, 30);
         hash.get(1); // 查找键对应的值
         hash.containsKey(1); // 查找是否有键，O(n)
+        hash.remove(1);
 
         /**
          * 遍历键值

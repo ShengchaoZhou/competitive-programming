@@ -25,7 +25,7 @@ public class PassingByValue {
          * 模拟值传递，其实就是新建一个对象，复制源对象
          * 对于 String 和 Integer，不需要显式复制，它们本身是 immutable（不可变）的
          */
-        cal(Arrays.copyOf(arr, arr.length), new ArrayList<>(list), str, integer);
+        cal(Arrays.copyOf(arr, arr.length), new ArrayList<>(list), str, integer); // 拷贝数据
         System.out.println(Arrays.toString(arr));
         System.out.println(list);
         System.out.println(str);
