@@ -4,16 +4,17 @@ public class StringDemo {
     public static void main(String[] args) {
         String str = "Hello World!";
         /*----------------------常用--------------------*/
-        str.length(); // 获取字符串长度
-        str.equals("hello world!"); // 判断字符串是否相等（区分大小写）
-        str.equalsIgnoreCase("hello world!"); // 判断字符串是否相等（忽略大小写）
-        str.toCharArray(); // 转换为字符数组
+        str.length();
+        str.equals("hello world!");
+        str.equalsIgnoreCase("hello world!");
+        str.toCharArray();
         new String(new char[10]); // 字符数组转换成字符串
         new String(new char[10], 0, 10); // 偏移量和数量
         str.charAt(0);
-        str.substring(0, 5); // [start, end)
+        str.substring(0, 5); // [start, end)，end不能超过长度
         str.isEmpty();
-        Character.isDigit('5');
+        Character.isDigit('5'); // 只有判断数字函数，没有判断字母函数
+        Character.isLetter('你'); // 只要Unicode把某个码点标记为 Letter（汉字、希腊文、俄文、日文假名……）
 
         /*----------------------偶尔--------------------*/
         int cmp = "abc".compareTo("abd"); // 字符串按字典顺序比较大小，返回结果为int类型
@@ -22,7 +23,7 @@ public class StringDemo {
         Integer.valueOf("123");
         str.contains("World"); // 判断是否包含某个子串
         String csv = "apple,banana,orange";
-        csv.split(","); // 按指定分隔符分割字符串
+        csv.split(","); // 按指定分隔符分割字符串，注意是正则表达式
 
         /*----------------------不常用--------------------*/
         str.startsWith("Hello"); // 判断是否以指定前缀开头

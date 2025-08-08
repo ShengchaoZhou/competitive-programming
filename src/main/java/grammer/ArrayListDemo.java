@@ -1,8 +1,6 @@
 package grammer;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ArrayListDemo {
 
@@ -10,6 +8,8 @@ public class ArrayListDemo {
         // ArrayList添加和删除
         ArrayList<Integer> integers = new ArrayList<>();
         integers.add(1);
+        integers.add(5);
+        integers.add(1, 5);
         integers.set(0, 2); // 修改某个位置的元素
         integers.remove(integers.size() - 1); // 对应vector中的pop_back()，时间O(1)
 
@@ -27,5 +27,19 @@ public class ArrayListDemo {
         for (List<Integer> a : arr2) {
             System.out.println(a);
         }
+
+        /**
+         * Collections使用
+         */
+        Collections.swap(integers, 0, 1);
+        Collections.reverse(integers);
+        /**
+         * toArray() toArray(T[]) 应用
+         */
+        List<int[]> people = new ArrayList<>();
+        people.add(new int[]{1, 1});
+        people.add(new int[]{2, 2});
+        int[][] peopleArray = people.toArray(new int[people.size()][]);
+        System.out.println(Arrays.deepToString(peopleArray));
     }
 }

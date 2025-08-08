@@ -13,7 +13,7 @@ public class StringBuilerDemo {
         sb.reverse();
         sb.charAt(0);
         sb.length();
-        sb.append('a').append('b'); // 可以连加
+        sb.append('a').append('b'); // 可以连加，可以直接拼接基本数据类型
         sb.substring(0); // 注意是小写s
         sb.toString(); // 注意是大写S
     }

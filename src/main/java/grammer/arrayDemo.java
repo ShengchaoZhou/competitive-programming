@@ -60,7 +60,7 @@ public class arrayDemo {
 
         // Integer[] 数组降序写法2
         Arrays.sort(arr2, (a, b) -> b - a);
-        Arrays.sort(arr2, 0, arr2.length - 1, (a, b) -> b - a); // 排序指定区间
+        Arrays.sort(arr2, 0, arr2.length, (a, b) -> b - a); // 排序指定区间[from, end)
 
         // ArrayList 降序写法（升序也要传入比较器）
         arr3.sort((a, b) -> b - a);
@@ -107,10 +107,11 @@ public class arrayDemo {
         /**
          * 复制数组（只能复制一维！）
          */
-        Arrays.copyOf(arr1, arr1.length);
+        Arrays.copyOf(arr1, arr1.length); // 可以复制
+        arr1.clone(); // 不能复制对象数组，Integer
 
         // 匿名初始化
         System.out.println(new int[]{1, 2, 3, 4, 5}[2]);  // 输出3
-        System.out.println(Arrays.toString(new int[]{1, 2, 3, 4, 5}));
+        System.out.println(Arrays.toString(new int[]{1, 2, 3, 4, 5})); // 只适合用于输出
     }
 }

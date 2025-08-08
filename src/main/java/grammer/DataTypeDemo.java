@@ -36,5 +36,9 @@ public class DataTypeDemo {
         int long2int = (int)c;
         System.out.println(long2int); // -539222978
         long int2long = a + c;
+        /**
+         * char 类型可以使用比较符
+         */
+        boolean bmp = 'a' < 'b';
     }
 }
