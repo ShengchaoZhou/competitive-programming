@@ -17,7 +17,7 @@ public class ArrayListDemo {
         List<ArrayDeque<Integer>> dq = new ArrayList<>(4);
         for (int i = 0; i < 4; i++) dq.add(new ArrayDeque<>());
 
-        // 创建泛型数组的写法
+        // 创建List数组的写法
         ArrayList<Integer>[] arr = new ArrayList[4];
         for (int i = 0; i < 4; i++) arr[i] = new ArrayList<>();
 

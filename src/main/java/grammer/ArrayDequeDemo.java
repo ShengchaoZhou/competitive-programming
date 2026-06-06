@@ -22,14 +22,14 @@ public class ArrayDequeDemo {
         Deque<String> stack = new ArrayDeque<>();
         stack.push("X"); stack.push("Y"); stack.push("Z");
         stack.pop();
-        stack.peek();
+        stack.peek(); // 返回环形数组的首部，栈添加内容时也是往首部添加的。
         stack.isEmpty();
         stack.clear();
 
         /**
          * 作为双端队列使用（Deque）
          */
-        // 不能写成Queue<String> deque = new ArrayDeque<>();
+        // 写成Queue<String> deque = new ArrayDeque<>(); 则不能调用Deque的方法
         Deque<String> deque = new ArrayDeque<>();
         deque.offerFirst("1");
         deque.offerLast("5");

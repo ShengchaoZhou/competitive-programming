@@ -13,30 +13,35 @@ public class CreateThreadDemo {
         Thread t1 = new Thread() {
             @Override
             public void run() {
-                System.out.println("继承Thread");
+                System.out.println("匿名内部类，继承Thread");
             }
         };
         t1.start();
 
         //2.实现Runnable接口
-        Thread thread1 = new Thread(new Runnable() {
+        Runnable r = new Runnable() {
             @Override
             public void run() {
-                System.out.println("实现Runnable接口");
+                System.out.println("running Ruunable interface");
             }
-        });
-        thread1.start();
+        };
+        Thread t2 = new Thread(r, "t2");
+        t2.start();
 
-        // 3.自己封装FutureTask
-        FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
+        // 3. 实现Callable接口，并自己封装FutureTask
+        // Callable接口中的泛型String不能省略，接口名字叫call，要抛出异常
+        Callable<String> c = new Callable<String>() {
             @Override
             public String call() throws Exception {
-                return "Hello";
+                return "running Callable interface";
             }
-        });
-        new Thread(futureTask).start();
-        String res = futureTask.get();
-        System.out.println(res);
+        };
+        FutureTask<String> ft1 = new FutureTask<>(c);
+        FutureTask<String> ft2 = new FutureTask<>(r, "Runnable已完成");
+        new Thread(ft1).start();
+        new Thread(ft2).start();
+        System.out.println(ft1.get());
+        System.out.println(ft2.get());
 
         // 4.实现Callable接口，线程池自动封装成FutureTask
         ExecutorService service = Executors.newSingleThreadExecutor();

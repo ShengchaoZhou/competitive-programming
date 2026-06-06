@@ -84,14 +84,14 @@ public class arrayDemo {
         for (int[] r : arr4) Arrays.fill(r, 4); // int[][]
 
         /**
-         * 数组转化为集合
+         * 数组转化为集合（不好用）
          */
         List<Integer> list1 = Arrays.asList(1, 2, 3);
         List<Integer> list = Arrays.asList(arr2); // int[]不行，Integer[]可以
         System.out.println(list);
 
         /**
-         * 集合转化为数组
+         * 集合转化为数组（不好用）
          */
         List<Integer> list2 = Arrays.asList(1, 2, 3);
         Integer[] array2 = list2.toArray(new Integer[list2.size()]);

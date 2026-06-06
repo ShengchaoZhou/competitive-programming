@@ -1,6 +1,9 @@
 package solutions.acm;
 import java.util.*;
 
+/**
+ * 可以参考LeetCode 297.二叉树的序列化与反序列化
+ */
 public class BuildTree {
     static class TreeNode {
         int val;

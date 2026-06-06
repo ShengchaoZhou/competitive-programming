@@ -17,8 +17,9 @@ public class TreeMapDemo {
 
         map.size(); // 获取键值对数量
         map.isEmpty(); // 判断是否为空
-        map.clear(); // 清空所有键值对
+        //map.clear(); // 清空所有键值对
 
+        // 因为这里面是包装类型，并且可能返回null，所以要用包装类型接收
         map.ceilingKey("b"); // 获取大于等于给定键的最小键
         map.higherKey("banana"); // 获取严格大于给定键的最小键
         map.floorKey("b"); // 获取小于等于给定键的最大键

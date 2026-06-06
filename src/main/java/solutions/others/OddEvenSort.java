@@ -56,7 +56,8 @@ public class OddEvenSort {
         Scanner sc = new Scanner(System.in);
         Node dummy = new Node();
         Node cur = dummy;
-        while (sc.hasNextInt()) {
+        int n = sc.nextInt(); // 节点个数
+        while (n-- > 0) {
             cur.next = new Node(sc.nextInt(), null);
             cur = cur.next;
         }
