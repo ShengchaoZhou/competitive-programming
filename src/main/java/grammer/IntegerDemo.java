@@ -11,5 +11,7 @@ public class IntegerDemo {
         // ==> x = IntegerCache.cache[100 + 128]; 命中缓存池
         x = 1000;
         // x = new Integer(1000); 超出范围，不是缓存，是新对象
+        Long a = -2147483648l;
+        int b = (int)(long)a;
     }
 }
