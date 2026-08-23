@@ -7,4 +7,6 @@
 
     LeetCode、AcWing
 - 算法常用模板
+
+    - [第一章：基础算法](document/算法笔记/基础算法/README.md)
 - 多线程编程
