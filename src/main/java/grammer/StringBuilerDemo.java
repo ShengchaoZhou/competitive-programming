@@ -17,6 +17,7 @@ public class StringBuilerDemo {
         char[] cs = new char[]{'a', 'b', 'c'};
         sb.append(cs, 0, 2); // 特别得，这里传入长度
         sb.substring(0); // 注意是小写s
+        sb.substring(0, sb.length()); // [start, end)
         sb.toString(); // 注意是大写S
     }
 }
