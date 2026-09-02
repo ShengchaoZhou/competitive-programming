@@ -46,7 +46,7 @@ public class arrayDemo {
          * 排序
          */
         Arrays.sort(arr1); // int[] 数组只能升序！
-        Arrays.sort(arr1, 0, arr1.length - 1); // 排序指定区间
+        Arrays.sort(arr1, 0, arr1.length); // 排序指定区间 [start, end)
         // 想要降序，需要先转化成Integer[]数组
         Integer[] array = Arrays.stream(arr1).boxed().toArray(Integer[]::new);
 

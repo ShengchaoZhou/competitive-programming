@@ -38,6 +38,7 @@ public class PriorityQueueDemo {
         minHeap.add(20);
 
         minHeap.peek(); // 查看堆顶元素（不移除）
+        minHeap.remove(); // // 删除堆顶元素并返回
         minHeap.poll(); // 删除堆顶元素并返回
         minHeap.isEmpty(); // 判断队列是否为空
 
