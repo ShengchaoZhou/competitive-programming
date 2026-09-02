@@ -42,15 +42,13 @@
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     private static final int NEGATIVE_INFINITY = -1_000_000_000;
 
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int[] best = new int[n + 1];
         int[] rowValues = new int[n + 1];
@@ -74,43 +72,6 @@ public class Main {
         System.out.println(answer);
     }
 
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) {
-                    return -1;
-                }
-            }
-            return buffer[pointer++];
-        }
-
-        private int nextInt() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            int sign = 1;
-            if (c == '-') {
-                sign = -1;
-                c = read();
-            }
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = read();
-            }
-            return value * sign;
-        }
-    }
 }
 ```
 
@@ -155,12 +116,11 @@ public class Main {
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int[] numbers = new int[n];
         int[] bestEndingAt = new int[n];
@@ -183,43 +143,6 @@ public class Main {
         System.out.println(answer);
     }
 
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) {
-                    return -1;
-                }
-            }
-            return buffer[pointer++];
-        }
-
-        private int nextInt() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            int sign = 1;
-            if (c == '-') {
-                sign = -1;
-                c = read();
-            }
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = read();
-            }
-            return value * sign;
-        }
-    }
 }
 ```
 
@@ -264,12 +187,11 @@ public class Main {
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int[] minimumTail = new int[n];
         int length = 0;
@@ -297,43 +219,6 @@ public class Main {
         System.out.println(length);
     }
 
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) {
-                    return -1;
-                }
-            }
-            return buffer[pointer++];
-        }
-
-        private int nextInt() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            int sign = 1;
-            if (c == '-') {
-                sign = -1;
-                c = read();
-            }
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = read();
-            }
-            return value * sign;
-        }
-    }
 }
 ```
 
@@ -380,12 +265,11 @@ abedc
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int m = scanner.nextInt();
         char[] first = scanner.next().toCharArray();
@@ -407,41 +291,6 @@ public class Main {
         System.out.println(best[m]);
     }
 
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) {
-                    return -1;
-                }
-            }
-            return buffer[pointer++];
-        }
-
-        private String next() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            StringBuilder token = new StringBuilder();
-            while (c > ' ') {
-                token.append((char) c);
-                c = read();
-            }
-            return token.toString();
-        }
-
-        private int nextInt() throws IOException {
-            return Integer.parseInt(next());
-        }
-    }
 }
 ```
 
@@ -490,12 +339,11 @@ AGTAAGTAGGC
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         char[] source = scanner.next().toCharArray();
         int m = scanner.nextInt();
@@ -523,41 +371,6 @@ public class Main {
         System.out.println(distance[m]);
     }
 
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) {
-                    return -1;
-                }
-            }
-            return buffer[pointer++];
-        }
-
-        private String next() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            StringBuilder token = new StringBuilder();
-            while (c > ' ') {
-                token.append((char) c);
-                c = read();
-            }
-            return token.toString();
-        }
-
-        private int nextInt() throws IOException {
-            return Integer.parseInt(next());
-        }
-    }
 }
 ```
 
@@ -609,12 +422,11 @@ acbd 2
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int wordCount = scanner.nextInt();
         int queryCount = scanner.nextInt();
         String[] words = new String[wordCount];
@@ -663,41 +475,6 @@ public class Main {
         return distance[target.length()];
     }
 
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) {
-                    return -1;
-                }
-            }
-            return buffer[pointer++];
-        }
-
-        private String next() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            StringBuilder token = new StringBuilder();
-            while (c > ' ') {
-                token.append((char) c);
-                c = read();
-            }
-            return token.toString();
-        }
-
-        private int nextInt() throws IOException {
-            return Integer.parseInt(next());
-        }
-    }
 }
 ```
 

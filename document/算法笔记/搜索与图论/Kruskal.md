@@ -43,13 +43,11 @@ Kruskal 算法用于求带权无向图的最小生成树，按边权排序并用
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int m = scanner.nextInt();
 
@@ -128,44 +126,6 @@ public class Main {
             parent[secondRoot] = firstRoot;
             size[firstRoot] += size[secondRoot];
             return true;
-        }
-    }
-
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) {
-                    return -1;
-                }
-            }
-            return buffer[pointer++];
-        }
-
-        private int nextInt() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            int sign = 1;
-            if (c == '-') {
-                sign = -1;
-                c = read();
-            }
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = read();
-            }
-            return value * sign;
         }
     }
 }

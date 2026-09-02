@@ -51,15 +51,13 @@
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     private static final int[][][] TRANSITION_CACHE = new int[12][][];
 
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         StringBuilder answer = new StringBuilder();
 
         while (true) {
@@ -137,35 +135,6 @@ public class Main {
         return (emptyRunLength & 1) == 0;
     }
 
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) return -1;
-            }
-            return buffer[pointer++];
-        }
-
-        private int nextInt() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = read();
-            }
-            return value;
-        }
-    }
 }
 ```
 
@@ -215,15 +184,13 @@ public class Main {
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     private static final int INF = 0x3f3f3f3f;
 
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int[][] distance = new int[n][n];
 
@@ -271,35 +238,6 @@ public class Main {
         System.out.println(dp[fullState * n + n - 1]);
     }
 
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) return -1;
-            }
-            return buffer[pointer++];
-        }
-
-        private int nextInt() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = read();
-            }
-            return value;
-        }
-    }
 }
 ```
 

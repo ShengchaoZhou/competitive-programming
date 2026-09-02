@@ -40,16 +40,13 @@ SPFA 用队列缩小 Bellman-Ford 中需要松弛的点集，可用于含负权�
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     private static final long INF = Long.MAX_VALUE / 4;
 
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int m = scanner.nextInt();
 
@@ -94,44 +91,6 @@ public class Main {
         }
 
         System.out.println(distance[n] == INF ? "impossible" : distance[n]);
-    }
-
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) {
-                    return -1;
-                }
-            }
-            return buffer[pointer++];
-        }
-
-        private int nextInt() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            int sign = 1;
-            if (c == '-') {
-                sign = -1;
-                c = read();
-            }
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = read();
-            }
-            return value * sign;
-        }
     }
 }
 ```
@@ -180,14 +139,11 @@ Yes
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int m = scanner.nextInt();
 
@@ -239,44 +195,6 @@ public class Main {
         }
 
         System.out.println(hasNegativeCycle ? "Yes" : "No");
-    }
-
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) {
-                    return -1;
-                }
-            }
-            return buffer[pointer++];
-        }
-
-        private int nextInt() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            int sign = 1;
-            if (c == '-') {
-                sign = -1;
-                c = read();
-            }
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = read();
-            }
-            return value * sign;
-        }
     }
 }
 ```

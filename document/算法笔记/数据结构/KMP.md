@@ -46,14 +46,12 @@ ababa
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
-        FastOutput output = new FastOutput();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        StringBuilder answer = new StringBuilder();
         int n = scanner.nextInt();
         String pattern = scanner.next();
         int m = scanner.nextInt();
@@ -80,82 +78,14 @@ public class Main {
             }
 
             if (matched == n) {
-                if (!first) output.writeSpace();
-                output.writeInt(i - n + 1);
+                if (!first) answer.append(' ');
+                answer.append(i - n + 1);
                 first = false;
                 matched = prefix[matched - 1];
             }
         }
 
-        output.writeNewLine();
-        output.flush();
-    }
-
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) return -1;
-            }
-            return buffer[pointer++];
-        }
-
-        private String next() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            StringBuilder token = new StringBuilder();
-            while (c > ' ') {
-                token.append((char) c);
-                c = read();
-            }
-            return token.toString();
-        }
-
-        private int nextInt() throws IOException {
-            return Integer.parseInt(next());
-        }
-    }
-
-    private static class FastOutput {
-        private final BufferedOutputStream output = new BufferedOutputStream(System.out);
-        private final byte[] digits = new byte[12];
-
-        private void writeInt(int value) throws IOException {
-            if (value == 0) {
-                output.write('0');
-                return;
-            }
-
-            int size = 0;
-            while (value > 0) {
-                digits[size++] = (byte) ('0' + value % 10);
-                value /= 10;
-            }
-            while (size > 0) {
-                output.write(digits[--size]);
-            }
-        }
-
-        private void writeSpace() throws IOException {
-            output.write(' ');
-        }
-
-        private void writeNewLine() throws IOException {
-            output.write('\n');
-        }
-
-        private void flush() throws IOException {
-            output.flush();
-        }
+        System.out.println(answer);
     }
 }
 ```

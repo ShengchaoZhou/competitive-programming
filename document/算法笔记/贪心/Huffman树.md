@@ -41,13 +41,11 @@ Huffman 树用于在反复合并带权对象且每次代价为两者权值之和
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         PriorityQueue<Long> minHeap = new PriorityQueue<>();
 
@@ -63,36 +61,6 @@ public class Main {
         }
 
         System.out.println(answer);
-    }
-
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-        private final byte[] buffer = new byte[1 << 16];
-        private int pointer;
-        private int length;
-
-        private int read() throws IOException {
-            if (pointer >= length) {
-                length = input.read(buffer);
-                pointer = 0;
-                if (length == -1) return -1;
-            }
-            return buffer[pointer++];
-        }
-
-        private int nextInt() throws IOException {
-            int c;
-            do {
-                c = read();
-            } while (c <= ' ' && c != -1);
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = read();
-            }
-            return value;
-        }
     }
 }
 ```

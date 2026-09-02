@@ -40,26 +40,21 @@ DFS 用于沿搜索树的一条路径不断深入，并通过回溯枚举排列�
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.util.*;
 
 public class Main {
     private static int n;
     private static int[] permutation;
     private static boolean[] used;
-    private static BufferedWriter output;
-
-    private static void dfs(int position) throws IOException {
+    private static void dfs(int position) {
         if (position == n) {
             for (int i = 0; i < n; i++) {
                 if (i > 0) {
-                    output.write(' ');
+                    System.out.print(' ');
                 }
-                output.write(Integer.toString(permutation[i]));
+                System.out.print(permutation[i]);
             }
-            output.newLine();
+            System.out.println();
             return;
         }
 
@@ -73,33 +68,12 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         n = scanner.nextInt();
         permutation = new int[n];
         used = new boolean[n + 1];
-        output = new BufferedWriter(new OutputStreamWriter(System.out));
-
         dfs(0);
-        output.flush();
-    }
-
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-
-        int nextInt() throws IOException {
-            int c;
-            do {
-                c = input.read();
-            } while (c <= ' ' && c != -1);
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = input.read();
-            }
-            return value;
-        }
     }
 }
 ```
@@ -153,11 +127,7 @@ Q...
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     private static int n;
@@ -165,15 +135,12 @@ public class Main {
     private static boolean[] occupiedColumn;
     private static boolean[] occupiedMainDiagonal;
     private static boolean[] occupiedAntiDiagonal;
-    private static BufferedWriter output;
-
-    private static void dfs(int row) throws IOException {
+    private static void dfs(int row) {
         if (row == n) {
             for (char[] line : board) {
-                output.write(line);
-                output.newLine();
+                System.out.println(line);
             }
-            output.newLine();
+            System.out.println();
             return;
         }
 
@@ -198,8 +165,8 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         n = scanner.nextInt();
         board = new char[n][n];
         for (char[] row : board) {
@@ -208,28 +175,7 @@ public class Main {
         occupiedColumn = new boolean[n];
         occupiedMainDiagonal = new boolean[2 * n + 1];
         occupiedAntiDiagonal = new boolean[2 * n + 1];
-        output = new BufferedWriter(new OutputStreamWriter(System.out));
-
         dfs(0);
-        output.flush();
-    }
-
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-
-        int nextInt() throws IOException {
-            int c;
-            do {
-                c = input.read();
-            } while (c <= ' ' && c != -1);
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = input.read();
-            }
-            return value;
-        }
     }
 }
 ```

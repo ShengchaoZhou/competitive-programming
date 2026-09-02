@@ -44,16 +44,14 @@ BFS 用于按距离逐层扩展状态，在所有移动代价相同的迷宫或�
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     private static final int[] DX = {-1, 0, 1, 0};
     private static final int[] DY = {0, 1, 0, -1};
 
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int m = scanner.nextInt();
         int[][] maze = new int[n][m];
@@ -93,24 +91,6 @@ public class Main {
         }
 
         System.out.println(distance[n - 1][m - 1]);
-    }
-
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-
-        int nextInt() throws IOException {
-            int c;
-            do {
-                c = input.read();
-            } while (c <= ' ' && c != -1);
-
-            int value = 0;
-            while (c > ' ') {
-                value = value * 10 + c - '0';
-                c = input.read();
-            }
-            return value;
-        }
     }
 }
 ```
@@ -156,12 +136,7 @@ public class Main {
 ### 参考 Java 解法
 
 ```java
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class Main {
     private static final String TARGET = "12345678x";
@@ -209,30 +184,12 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        FastScanner scanner = new FastScanner();
+        Scanner scanner = new Scanner(System.in);
         StringBuilder start = new StringBuilder();
         for (int i = 0; i < 9; i++) {
             start.append(scanner.next());
         }
         System.out.println(bfs(start.toString()));
-    }
-
-    private static class FastScanner {
-        private final BufferedInputStream input = new BufferedInputStream(System.in);
-
-        String next() throws IOException {
-            int c;
-            do {
-                c = input.read();
-            } while (c <= ' ' && c != -1);
-
-            StringBuilder token = new StringBuilder();
-            while (c > ' ') {
-                token.append((char) c);
-                c = input.read();
-            }
-            return token.toString();
-        }
     }
 }
 ```
