@@ -12,6 +12,7 @@ public class IntegerDemo {
         x = 1000;
         // x = new Integer(1000); 超出范围，不是缓存，是新对象
         Long a = -2147483648l;
+        // 包装类型 Long 装换成普通 int 类型需要两次强制转换
         int b = (int)(long)a;
     }
 }
