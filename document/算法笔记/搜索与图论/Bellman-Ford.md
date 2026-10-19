@@ -1,87 +1,17 @@
 # Bellman-Ford
 
-Bellman-Ford 算法用于在含负权边的图中求单源最短路，并可通过限制松弛轮数约束路径经过的边数。
+Bellman-Ford 通过反复松弛所有边处理含负权边的最短路。若题目限制最多经过 k 条边，就把松弛轮数作为路径边数，并严格使用上一轮的结果转移。
 
-## [AcWing 853. 有边数限制的最短路](https://www.acwing.com/problem/content/855/)
+| 算法类别 | 具体题型 | 题目与题集标记 |
+| --- | --- | --- |
+| [限制路径边数的最短路](#限制路径边数的最短路) | 最多经过指定数量的边 | [AcWing 853. 有边数限制的最短路](https://www.acwing.com/problem/content/855/) （AcWing基础课） |
 
-### 题目描述
+## 限制路径边数的最短路
 
-给定一个包含 $n$ 个点和 $m$ 条边的有向图，图中可能存在重边、自环和负权回路。求从 $1$ 号点到 $n$ 号点、最多经过 $k$ 条边的最短距离。
+定义 d_i[v] 为从源点到 v、最多经过 i 条边的最短距离。每轮先继承 d_(i-1)，再对边 u → v 更新 d_i[v] = min(d_i[v], d_(i-1)[u] + w)。初始化 d_0[source] = 0，其余为无穷大，执行 k 轮；每轮扫描所有边并复制距离数组，总时间为 O(k(n + m))，辅助空间为 O(n)。
 
-**输入格式**
+### 最多经过指定数量的边
 
-- 第一行包含三个整数 $n,m,k$。
-- 接下来 $m$ 行，每行包含三个整数 $x,y,z$，表示存在一条从 $x$ 指向 $y$、长度为 $z$ 的边。
+每轮复制上一轮距离，所有边都从这个副本读取起点距离。如果直接从本轮不断更新的数组读取，同一轮可能连续经过多条边，使 k 轮不再代表最多 k 条边。只有起点距离可达时才做加法，避免无穷大与负权相加产生伪路径。
 
-**输出格式**
-
-输出满足边数限制的最短距离；如果不存在这样的路径，输出 `impossible`。
-
-**数据范围**
-
-- $1\le n,k\le 500$
-- $1\le m\le 10^4$
-- $|z|\le 10^4$
-
-**输入样例**
-
-```text
-3 3 1
-1 2 1
-2 3 1
-1 3 3
-```
-
-**输出样例**
-
-```text
-3
-```
-
-### 参考 Java 解法
-
-```java
-import java.util.*;
-
-public class Main {
-    private static final long INF = Long.MAX_VALUE / 4;
-
-    public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int m = scanner.nextInt();
-        int maximumEdges = scanner.nextInt();
-
-        int[] from = new int[m];
-        int[] to = new int[m];
-        int[] weight = new int[m];
-        for (int edge = 0; edge < m; edge++) {
-            from[edge] = scanner.nextInt();
-            to[edge] = scanner.nextInt();
-            weight[edge] = scanner.nextInt();
-        }
-
-        long[] distance = new long[n + 1];
-        Arrays.fill(distance, INF);
-        distance[1] = 0;
-
-        for (int round = 0; round < maximumEdges; round++) {
-            long[] previous = distance.clone();
-            for (int edge = 0; edge < m; edge++) {
-                if (previous[from[edge]] == INF) {
-                    continue;
-                }
-                distance[to[edge]] = Math.min(
-                        distance[to[edge]], previous[from[edge]] + weight[edge]);
-            }
-        }
-
-        System.out.println(distance[n] == INF ? "impossible" : distance[n]);
-    }
-}
-```
-
-### 时空复杂度
-
-- 时间复杂度：$O(km)$，每轮都遍历全部 $m$ 条边。
-- 空间复杂度：$O(n+m)$，用于存储边、距离数组及上一轮距离的备份。
+- [AcWing 853. 有边数限制的最短路](https://www.acwing.com/problem/content/855/) （AcWing基础课）：求最多经过 k 条边的最短路；即使图中有负权回路，边数上限仍使答案有界。若改为恰好 k 条边，每轮就不能继承上一轮距离。

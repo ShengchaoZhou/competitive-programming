@@ -6,12 +6,16 @@
 - 题解合集
 
     LeetCode、AcWing
-- 算法常用模板
+- [算法题集总目录](document/算法笔记/README.md)
 
-    - [第一章：基础算法](document/算法笔记/基础算法/README.md)
-    - [第二章：数据结构](document/算法笔记/数据结构/README.md)
-    - [第三章：搜索与图论](document/算法笔记/搜索与图论/README.md)
-    - [第四章：数学知识](document/算法笔记/数学知识/README.md)
-    - [第五章：动态规划](document/算法笔记/动态规划/README.md)
-    - [第六章：贪心](document/算法笔记/贪心/README.md)
+    覆盖 Hot100、面试经典150、AcWing 算法基础课与 CodeTop 前200，共 8 个模块、72 个专题。
+
+    - [基础算法](document/算法笔记/基础算法/README.md)
+    - [数据结构](document/算法笔记/数据结构/README.md)
+    - [搜索与图论](document/算法笔记/搜索与图论/README.md)
+    - [数学知识](document/算法笔记/数学知识/README.md)
+    - [动态规划](document/算法笔记/动态规划/README.md)
+    - [贪心](document/算法笔记/贪心/README.md)
+    - [字符串](document/算法笔记/字符串/README.md)
+    - [其他](document/算法笔记/其他/README.md)
 - 多线程编程

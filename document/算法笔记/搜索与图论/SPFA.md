@@ -1,205 +1,28 @@
 # SPFA
 
-SPFA 用队列缩小 Bellman-Ford 中需要松弛的点集，可用于含负权边图的单源最短路和负权回路判定。
+SPFA 用队列安排距离发生改善的节点，减少部分图上的无效松弛。它可以处理负权边，但最坏时间仍为 O(nm)，不能把常见的较快表现当成复杂度保证。
 
-## [AcWing 851. SPFA 求最短路](https://www.acwing.com/problem/content/853/)
+| 算法类别 | 具体题型 | 题目与题集标记 |
+| --- | --- | --- |
+| [队列松弛](#队列松弛) | 允许负权边的单源最短路 | [AcWing 851. SPFA 求最短路](https://www.acwing.com/problem/content/853/) （AcWing基础课） |
+| [负权环检测](#负权环检测) | 检测任意位置的负环 | [AcWing 852. SPFA 判断负环](https://www.acwing.com/problem/content/854/) （AcWing基础课） |
 
-### 题目描述
+## 队列松弛
 
-给定一个包含 $n$ 个点和 $m$ 条边的有向图，图中可能存在重边和自环，边权可能为负数，但保证不存在负权回路。求从 $1$ 号点到 $n$ 号点的最短距离。
+只有节点距离被改善时，它的出边才可能继续改善其他节点。用队列保存这些待处理节点，并维护是否已在队列中的标记，避免重复入队；节点出队后清除标记，使后续改善可以再次安排处理。
 
-**输入格式**
+### 允许负权边的单源最短路
 
-- 第一行包含两个整数 $n$ 和 $m$。
-- 接下来 $m$ 行，每行包含三个整数 $x,y,z$，表示存在一条从 $x$ 指向 $y$、长度为 $z$ 的边。
+源点距离设为 0，只把源点加入队列。每次对出边进行松弛，距离降低且终点不在队列中时将其加入。该方式只会访问源点可达区域，适用于不存在可达负环的最短路问题。
 
-**输出格式**
+- [AcWing 851. SPFA 求最短路](https://www.acwing.com/problem/content/853/) （AcWing基础课）：题目保证不存在负权回路，求 1 号点到 n 号点的最短距离；无法到达时输出 impossible。
 
-输出 $1$ 号点到 $n$ 号点的最短距离；如果无法到达，输出 `impossible`。
+## 负权环检测
 
-**数据范围**
+若希望检查整张图，应从所有连通部分同时开始。可以把每个节点距离初始化为 0 并全部入队，相当于增加一个向所有节点连零权边的超级源点。
 
-- $1\le n,m\le 10^5$
-- $|z|\le 10^4$
+### 检测任意位置的负环
 
-**输入样例**
+松弛 u → v 成功时，令 cnt[v] = cnt[u] + 1，记录这次距离对应的路径边数。若 cnt[v] ≥ n，说明松弛路径已包含重复节点，可据此判定存在负环。这里统计的是路径边数，不是简单累加某个节点的入队次数。
 
-```text
-3 3
-1 2 5
-2 3 -3
-1 3 4
-```
-
-**输出样例**
-
-```text
-2
-```
-
-### 参考 Java 解法
-
-```java
-import java.util.*;
-
-public class Main {
-    private static final long INF = Long.MAX_VALUE / 4;
-
-    public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int m = scanner.nextInt();
-
-        int[] head = new int[n + 1];
-        int[] to = new int[m];
-        int[] weight = new int[m];
-        int[] next = new int[m];
-        Arrays.fill(head, -1);
-
-        for (int edge = 0; edge < m; edge++) {
-            int from = scanner.nextInt();
-            to[edge] = scanner.nextInt();
-            weight[edge] = scanner.nextInt();
-            next[edge] = head[from];
-            head[from] = edge;
-        }
-
-        long[] distance = new long[n + 1];
-        boolean[] inQueue = new boolean[n + 1];
-        Arrays.fill(distance, INF);
-        distance[1] = 0;
-
-        ArrayDeque<Integer> queue = new ArrayDeque<>();
-        queue.offer(1);
-        inQueue[1] = true;
-
-        while (!queue.isEmpty()) {
-            int vertex = queue.poll();
-            inQueue[vertex] = false;
-
-            for (int edge = head[vertex]; edge != -1; edge = next[edge]) {
-                int neighbor = to[edge];
-                long candidate = distance[vertex] + weight[edge];
-                if (candidate < distance[neighbor]) {
-                    distance[neighbor] = candidate;
-                    if (!inQueue[neighbor]) {
-                        queue.offer(neighbor);
-                        inQueue[neighbor] = true;
-                    }
-                }
-            }
-        }
-
-        System.out.println(distance[n] == INF ? "impossible" : distance[n]);
-    }
-}
-```
-
-### 时空复杂度
-
-- 时间复杂度：常见数据下通常较快，最坏为 $O(nm)$。
-- 空间复杂度：$O(n+m)$，用于存储邻接表、距离数组和队列。
-
-## [AcWing 852. SPFA 判断负环](https://www.acwing.com/problem/content/854/)
-
-### 题目描述
-
-给定一个包含 $n$ 个点和 $m$ 条边的有向图，图中可能存在重边和自环，边权可能为负数。判断图中是否存在负权回路。
-
-**输入格式**
-
-- 第一行包含两个整数 $n$ 和 $m$。
-- 接下来 $m$ 行，每行包含三个整数 $x,y,z$，表示存在一条从 $x$ 指向 $y$、长度为 $z$ 的边。
-
-**输出格式**
-
-如果图中存在负权回路，输出 `Yes`；否则输出 `No`。
-
-**数据范围**
-
-- $1\le n\le 2000$
-- $1\le m\le 10^4$
-- $|z|\le 10^4$
-
-**输入样例**
-
-```text
-3 3
-1 2 -1
-2 3 4
-3 1 -4
-```
-
-**输出样例**
-
-```text
-Yes
-```
-
-### 参考 Java 解法
-
-```java
-import java.util.*;
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int m = scanner.nextInt();
-
-        int[] head = new int[n + 1];
-        int[] to = new int[m];
-        int[] weight = new int[m];
-        int[] next = new int[m];
-        Arrays.fill(head, -1);
-
-        for (int edge = 0; edge < m; edge++) {
-            int from = scanner.nextInt();
-            to[edge] = scanner.nextInt();
-            weight[edge] = scanner.nextInt();
-            next[edge] = head[from];
-            head[from] = edge;
-        }
-
-        long[] distance = new long[n + 1];
-        int[] edgeCount = new int[n + 1];
-        boolean[] inQueue = new boolean[n + 1];
-        ArrayDeque<Integer> queue = new ArrayDeque<>();
-
-        for (int vertex = 1; vertex <= n; vertex++) {
-            queue.offer(vertex);
-            inQueue[vertex] = true;
-        }
-
-        boolean hasNegativeCycle = false;
-        while (!queue.isEmpty() && !hasNegativeCycle) {
-            int vertex = queue.poll();
-            inQueue[vertex] = false;
-
-            for (int edge = head[vertex]; edge != -1; edge = next[edge]) {
-                int neighbor = to[edge];
-                long candidate = distance[vertex] + weight[edge];
-                if (candidate < distance[neighbor]) {
-                    distance[neighbor] = candidate;
-                    edgeCount[neighbor] = edgeCount[vertex] + 1;
-                    if (edgeCount[neighbor] >= n) {
-                        hasNegativeCycle = true;
-                        break;
-                    }
-                    if (!inQueue[neighbor]) {
-                        queue.offer(neighbor);
-                        inQueue[neighbor] = true;
-                    }
-                }
-            }
-        }
-
-        System.out.println(hasNegativeCycle ? "Yes" : "No");
-    }
-}
-```
-
-### 时空复杂度
-
-- 时间复杂度：最坏为 $O(nm)$。
-- 空间复杂度：$O(n+m)$，用于存储邻接表、距离、路径边数和队列。
+- [AcWing 852. SPFA 判断负环](https://www.acwing.com/problem/content/854/) （AcWing基础课）：要找整个有向图中的负环；只从 1 号点出发可能漏掉与它不连通的负环。

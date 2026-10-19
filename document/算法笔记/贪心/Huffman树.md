@@ -1,71 +1,19 @@
 # Huffman 树
 
-Huffman 树用于在反复合并带权对象且每次代价为两者权值之和时，求出最小总合并代价。
+Huffman 合并用于每次任选两个非负权重对象、以权重之和作为合并代价，并将合并结果继续参与后续操作的问题。
 
-## [AcWing 148. 合并果子](https://www.acwing.com/problem/content/150/)
+| 算法类型 | 题型 | 题目与题集标记 |
+| --- | --- | --- |
+| [最优合并](#最优合并) | 最小总合并代价 | [AcWing 148. 合并果子](https://www.acwing.com/problem/content/150/) （AcWing基础课） |
 
-### 题目描述
+## 最优合并
 
-果园中的果子按种类分成了 `n` 堆，第 `i` 堆有 `a[i]` 个果子，每个果子的重量均为 `1`。每次可以选择任意两堆合并，消耗的体力等于这两堆果子的总重量；新堆的重量也等于二者之和。
+每次取出当前最小的两个权重，相加后计入总代价，并将新权重放回集合。用小根堆维护这一过程，直到只剩一个对象。总时间复杂度为 $O(n\log n)$，空间复杂度为 $O(n)$。
 
-经过 `n - 1` 次合并后，所有果子会变成一堆。请安排合并顺序，求整个过程中消耗的最小体力之和。
+### 最小总合并代价
 
-**输入格式**
+把合并过程看成二叉树，总代价等于每个叶子权重乘以其深度的总和。较小权重应处于较深位置，可以将最小的两个权重安排成最深处的一对兄弟，再把它们缩成一个新节点，递归得到贪心策略。
 
-- 第一行包含整数 `n`，表示果子的种类数，也就是初始果子堆数。
-- 第二行包含 `n` 个整数，第 `i` 个整数 `a[i]` 表示第 `i` 堆的果子数量。
+该模型允许任意选择两堆；如果只能合并相邻对象，通常需要区间动态规划。只有一堆时无需操作，总代价为 `0`；多次累加应使用足够宽的整数类型。
 
-**输出格式**
-
-输出一个整数，表示将所有果子合并成一堆所需的最小体力。
-
-**数据范围**
-
-- `1 ≤ n ≤ 10000`
-- `1 ≤ a[i] ≤ 20000`
-- 输入保证最小体力值小于 `2^31`。
-
-**输入样例**
-
-```text
-3
-1 2 9
-```
-
-**输出样例**
-
-```text
-15
-```
-
-### 参考 Java 解法
-
-```java
-import java.util.*;
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        PriorityQueue<Long> minHeap = new PriorityQueue<>();
-
-        for (int i = 0; i < n; i++) {
-            minHeap.offer((long) scanner.nextInt());
-        }
-
-        long answer = 0;
-        while (minHeap.size() > 1) {
-            long merged = minHeap.poll() + minHeap.poll();
-            answer += merged;
-            minHeap.offer(merged);
-        }
-
-        System.out.println(answer);
-    }
-}
-```
-
-### 时空复杂度
-
-- 时间复杂度：$O(n\log n)$。
-- 空间复杂度：$O(n)$。
+- [AcWing 148. 合并果子](https://www.acwing.com/problem/content/150/) （AcWing基础课）：每次从堆中取最轻的两堆合并，合并后的整堆仍可能在后续反复产生代价。

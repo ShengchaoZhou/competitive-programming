@@ -1,108 +1,17 @@
 # Prim
 
-Prim 算法用于求带权无向图的最小生成树，朴素实现适合点数较小的稠密图。
+Prim 在无向图中逐步扩展已加入生成树的节点集合，每次用最便宜的跨集合边加入一个新节点。最小生成树的目标是连接全部节点且总边权最小，允许存在负权边。
 
-## [AcWing 858. Prim 算法求最小生成树](https://www.acwing.com/problem/content/860/)
+| 算法类别 | 具体题型 | 题目与题集标记 |
+| --- | --- | --- |
+| [稠密图的最小生成树](#稠密图的最小生成树) | 按点扩展并累加连接代价 | [AcWing 858. Prim 算法求最小生成树](https://www.acwing.com/problem/content/860/) （AcWing基础课） |
 
-### 题目描述
+## 稠密图的最小生成树
 
-给定一个包含 $n$ 个点和 $m$ 条边的带权无向图，图中可能存在重边和自环，边权可能为负数。求该图最小生成树的边权之和。
+从任意节点开始，用 best[v] 表示 v 到当前生成树的最小边权。每次选择未加入节点中 best 最小者，累加这条边，再用新节点的边权更新其余 best；朴素实现时间为 O(n² + m)，矩阵空间为 O(n²)。
 
-**输入格式**
+### 按点扩展并累加连接代价
 
-- 第一行包含两个整数 $n$ 和 $m$。
-- 接下来 $m$ 行，每行包含三个整数 $u,v,w$，表示 $u$ 和 $v$ 之间存在一条权值为 $w$ 的无向边。
+更新 best[v] 时比较的是 edge[u][v]，而不是源点距离加边权。第一个节点没有入树边，不计入答案；如果尚未加入的节点与当前集合之间都没有有限权值的边，则图不连通，不存在生成树。
 
-**输出格式**
-
-如果最小生成树存在，输出其边权之和；否则输出 `impossible`。
-
-**数据范围**
-
-- $1\le n\le 500$
-- $1\le m\le 10^5$
-- $|w|\le 10^4$
-
-**输入样例**
-
-```text
-4 5
-1 2 1
-1 3 2
-1 4 3
-2 3 2
-3 4 4
-```
-
-**输出样例**
-
-```text
-6
-```
-
-### 参考 Java 解法
-
-```java
-import java.util.*;
-
-public class Main {
-    private static final long INF = Long.MAX_VALUE / 4;
-
-    public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int m = scanner.nextInt();
-
-        long[][] graph = new long[n + 1][n + 1];
-        for (int vertex = 1; vertex <= n; vertex++) {
-            Arrays.fill(graph[vertex], INF);
-        }
-
-        for (int edge = 0; edge < m; edge++) {
-            int first = scanner.nextInt();
-            int second = scanner.nextInt();
-            int weight = scanner.nextInt();
-            graph[first][second] = Math.min(graph[first][second], weight);
-            graph[second][first] = Math.min(graph[second][first], weight);
-        }
-
-        long[] distanceToTree = new long[n + 1];
-        boolean[] inTree = new boolean[n + 1];
-        Arrays.fill(distanceToTree, INF);
-        distanceToTree[1] = 0;
-
-        long totalWeight = 0;
-        boolean connected = true;
-        for (int round = 0; round < n; round++) {
-            int nearest = -1;
-            for (int vertex = 1; vertex <= n; vertex++) {
-                if (!inTree[vertex]
-                        && (nearest == -1
-                        || distanceToTree[vertex] < distanceToTree[nearest])) {
-                    nearest = vertex;
-                }
-            }
-
-            if (nearest == -1 || distanceToTree[nearest] == INF) {
-                connected = false;
-                break;
-            }
-
-            inTree[nearest] = true;
-            totalWeight += distanceToTree[nearest];
-            for (int vertex = 1; vertex <= n; vertex++) {
-                if (!inTree[vertex] && graph[nearest][vertex] < distanceToTree[vertex]) {
-                    distanceToTree[vertex] = graph[nearest][vertex];
-                }
-            }
-        }
-
-        System.out.println(connected ? totalWeight : "impossible");
-    }
-}
-```
-
-### 时空复杂度
-
-- 时间复杂度：$O(n^2+m)$，主要开销是在邻接矩阵上执行 $n$ 轮选点与更新。
-- 空间复杂度：$O(n^2)$，用于存储邻接矩阵。
+- [AcWing 858. Prim 算法求最小生成树](https://www.acwing.com/problem/content/860/) （AcWing基础课）：用邻接矩阵保留重边的最小权值，自环不参与选边；成功加入全部 n 个节点后得到最小生成树总权重。

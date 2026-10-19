@@ -1,96 +1,18 @@
 # KMP
 
-KMP 用于在线性时间内找出一个模式串在文本串中的全部匹配位置。
+KMP 用模式串自身的前后缀关系跳过重复比较，适合单个模式串的线性匹配。设文本长度 n、模式长度 m，前缀函数预处理 O(m)，匹配 O(n)，额外空间 O(m)。
 
-## [AcWing 831. KMP字符串](https://www.acwing.com/problem/content/833/)
+| 算法类型 | 题型 | 题目与标注 |
+| --- | --- | --- |
+| [前缀函数与字符串匹配](#前缀函数与字符串匹配) | 查找模式串的出现位置 | [AcWing 831. KMP字符串](https://www.acwing.com/problem/content/833/) （AcWing基础课）<br>[LeetCode 28. 找出字符串中第一个匹配项的下标](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/) （面试150） |
 
-### 题目描述
+## 前缀函数与字符串匹配
 
-给定文本串 $S$ 和模式串 $P$，两个字符串都只包含大小写英文字母和阿拉伯数字。模式串可能在文本串中出现多次，请输出它每次出现时的起始下标，文本串下标从 $0$ 开始计算，重叠的匹配也需要统计。
+令 pi[i] 表示模式串前缀 P[0..i] 的最长相等真前缀与真后缀长度。失配时令 j = pi[j-1]，不断回退已匹配长度；文本指针不回退。
 
-**输入格式**
+### 查找模式串的出现位置
 
-第一行包含整数 $N$，表示模式串 $P$ 的长度。
+扫描文本并维护已匹配长度 j。字符相等时 j++，达到 m 时记录起点 i-m+1；若继续找所有匹配，则将 j 回退到 pi[m-1]，保留重叠出现的可能。采用 0 下标时不要直接套用 1 下标 next 数组公式。
 
-第二行包含模式串 $P$。
-
-第三行包含整数 $M$，表示文本串 $S$ 的长度。
-
-第四行包含文本串 $S$。
-
-**输出格式**
-
-输出一行，按从小到大的顺序输出 $P$ 在 $S$ 中所有出现位置的起始下标，相邻下标之间用空格分隔。
-
-**数据范围**
-
-- $1 \le N \le 10^5$
-- $1 \le M \le 10^6$
-- $P$ 和 $S$ 只包含大小写英文字母及阿拉伯数字
-
-**输入样例**
-
-```text
-3
-aba
-5
-ababa
-```
-
-**输出样例**
-
-```text
-0 2
-```
-
-### 参考 Java 解法
-
-```java
-import java.util.*;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        StringBuilder answer = new StringBuilder();
-        int n = scanner.nextInt();
-        String pattern = scanner.next();
-        int m = scanner.nextInt();
-        String text = scanner.next();
-
-        int[] prefix = new int[n];
-        for (int i = 1, matched = 0; i < n; i++) {
-            while (matched > 0 && pattern.charAt(i) != pattern.charAt(matched)) {
-                matched = prefix[matched - 1];
-            }
-            if (pattern.charAt(i) == pattern.charAt(matched)) {
-                matched++;
-            }
-            prefix[i] = matched;
-        }
-
-        boolean first = true;
-        for (int i = 0, matched = 0; i < m; i++) {
-            while (matched > 0 && text.charAt(i) != pattern.charAt(matched)) {
-                matched = prefix[matched - 1];
-            }
-            if (text.charAt(i) == pattern.charAt(matched)) {
-                matched++;
-            }
-
-            if (matched == n) {
-                if (!first) answer.append(' ');
-                answer.append(i - n + 1);
-                first = false;
-                matched = prefix[matched - 1];
-            }
-        }
-
-        System.out.println(answer);
-    }
-}
-```
-
-### 时空复杂度
-
-- 时间复杂度：$O(N+M)$，模式串预处理和文本串匹配都只进行线性扫描。
-- 空间复杂度：$O(N+M)$，用于保存两个输入字符串和模式串的前缀数组。
+- [AcWing 831. KMP字符串](https://www.acwing.com/problem/content/833/) （AcWing基础课）：输出全部匹配起点，包括重叠出现的位置。
+- [LeetCode 28. 找出字符串中第一个匹配项的下标](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/) （面试150）：找到第一次完整匹配后返回起点，始终未匹配则返回 -1；空模式串的返回值按题目或接口约定处理。

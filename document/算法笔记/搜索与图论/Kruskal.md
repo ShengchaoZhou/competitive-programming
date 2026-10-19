@@ -1,137 +1,17 @@
 # Kruskal
 
-Kruskal 算法用于求带权无向图的最小生成树，按边权排序并用并查集排除会形成环的边，适合稀疏图。
+Kruskal 将无向图的边从小到大排序，依次加入不会形成环的边。并查集维护当前森林中的连通分量，适合边数相对较少的图；负权边同样可以参与排序和选择。
 
-## [AcWing 859. Kruskal 算法求最小生成树](https://www.acwing.com/problem/content/861/)
+| 算法类别 | 具体题型 | 题目与题集标记 |
+| --- | --- | --- |
+| [按边合并的最小生成树](#按边合并的最小生成树) | 用并查集避免成环 | [AcWing 859. Kruskal 算法求最小生成树](https://www.acwing.com/problem/content/861/) （AcWing基础课） |
 
-### 题目描述
+## 按边合并的最小生成树
 
-给定一个包含 $n$ 个点和 $m$ 条边的带权无向图，图中可能存在重边和自环，边权可能为负数。求该图最小生成树的边权之和。
+排序后检查每条边的两个端点：属于不同集合时合并并累加权值，属于同一集合时跳过。排序时间为 O(m log m)，并查集配合路径压缩与按大小合并的总开销为 O(m α(n))；存边与并查集空间为 O(n + m)。
 
-**输入格式**
+### 用并查集避免成环
 
-- 第一行包含两个整数 $n$ 和 $m$。
-- 接下来 $m$ 行，每行包含三个整数 $u,v,w$，表示 $u$ 和 $v$ 之间存在一条权值为 $w$ 的无向边。
+记录已经选入的边数，选到 n - 1 条即可结束。处理全部边后仍不足 n - 1 条，说明图不连通；自环会被同集合判断跳过，重边也不会导致额外成环边进入答案。
 
-**输出格式**
-
-如果最小生成树存在，输出其边权之和；否则输出 `impossible`。
-
-**数据范围**
-
-- $1\le n\le 10^5$
-- $1\le m\le 2\times 10^5$
-- $|w|\le 10^3$
-
-**输入样例**
-
-```text
-4 5
-1 2 1
-1 3 2
-1 4 3
-2 3 2
-3 4 4
-```
-
-**输出样例**
-
-```text
-6
-```
-
-### 参考 Java 解法
-
-```java
-import java.util.*;
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int m = scanner.nextInt();
-
-        Edge[] edges = new Edge[m];
-        for (int i = 0; i < m; i++) {
-            edges[i] = new Edge(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
-        }
-        Arrays.sort(edges, (first, second) -> Integer.compare(first.weight, second.weight));
-
-        DisjointSet disjointSet = new DisjointSet(n);
-        long totalWeight = 0;
-        int selectedEdges = 0;
-
-        for (Edge edge : edges) {
-            if (disjointSet.union(edge.first, edge.second)) {
-                totalWeight += edge.weight;
-                selectedEdges++;
-                if (selectedEdges == n - 1) {
-                    break;
-                }
-            }
-        }
-
-        System.out.println(selectedEdges == n - 1 ? totalWeight : "impossible");
-    }
-
-    private static class Edge {
-        private final int first;
-        private final int second;
-        private final int weight;
-
-        private Edge(int first, int second, int weight) {
-            this.first = first;
-            this.second = second;
-            this.weight = weight;
-        }
-    }
-
-    private static class DisjointSet {
-        private final int[] parent;
-        private final int[] size;
-
-        private DisjointSet(int n) {
-            parent = new int[n + 1];
-            size = new int[n + 1];
-            for (int vertex = 1; vertex <= n; vertex++) {
-                parent[vertex] = vertex;
-                size[vertex] = 1;
-            }
-        }
-
-        private int find(int vertex) {
-            int root = vertex;
-            while (root != parent[root]) {
-                root = parent[root];
-            }
-            while (vertex != root) {
-                int next = parent[vertex];
-                parent[vertex] = root;
-                vertex = next;
-            }
-            return root;
-        }
-
-        private boolean union(int first, int second) {
-            int firstRoot = find(first);
-            int secondRoot = find(second);
-            if (firstRoot == secondRoot) {
-                return false;
-            }
-            if (size[firstRoot] < size[secondRoot]) {
-                int temporary = firstRoot;
-                firstRoot = secondRoot;
-                secondRoot = temporary;
-            }
-            parent[secondRoot] = firstRoot;
-            size[firstRoot] += size[secondRoot];
-            return true;
-        }
-    }
-}
-```
-
-### 时空复杂度
-
-- 时间复杂度：$O(m\log m)$，主要开销是对所有边排序，并查集操作的均摊开销近似常数。
-- 空间复杂度：$O(n+m)$，用于存储边集和并查集。
+- [AcWing 859. Kruskal 算法求最小生成树](https://www.acwing.com/problem/content/861/) （AcWing基础课）：输出连接全部节点的最小总权值；并查集只负责连通性，不按节点编号或边数推断是否已经相连。

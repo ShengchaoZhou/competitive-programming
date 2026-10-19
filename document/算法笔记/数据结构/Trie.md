@@ -1,199 +1,54 @@
 # Trie
 
-Trie 用于按公共前缀组织字符串或定长位序列，从而高效完成精确查询和逐位最优匹配。
+Trie 按前缀共享路径，适合字符串集合查询和二进制位序列上的逐位选择。节点表示前缀，路径存在与完整单词存在不同，完整单词需要额外的结束标记或计数。
 
-## [AcWing 835. Trie字符串统计](https://www.acwing.com/problem/content/837/)
+| 算法类型 | 题型 | 题目与标注 |
+| --- | --- | --- |
+| [字符串字典树](#字符串字典树) | 精确查询与前缀查询 | [AcWing 835. Trie字符串统计](https://www.acwing.com/problem/content/837/) （AcWing基础课）<br>[LeetCode 208. 实现 Trie (前缀树)](https://leetcode.cn/problems/implement-trie-prefix-tree/) （Hot100/面试150/CodeTop200） |
+|  | 含通配符的匹配 | [LeetCode 211. 添加与搜索单词 - 数据结构设计](https://leetcode.cn/problems/design-add-and-search-words-data-structure/) （面试150） |
+|  | 字典树与网格回溯 | [LeetCode 212. 单词搜索 II](https://leetcode.cn/problems/word-search-ii/) （面试150） |
+| [二进制 Trie](#二进制-trie) | 最大异或配对 | [AcWing 143. 最大异或对](https://www.acwing.com/problem/content/145/) （AcWing基础课） |
+| [隐式数字字典树](#隐式数字字典树) | 按前缀跳过整棵子树 | [LeetCode 440. 字典序的第K小数字](https://leetcode.cn/problems/k-th-smallest-in-lexicographical-order/) （CodeTop200） |
 
-### 题目描述
+## 字符串字典树
 
-维护一个允许重复字符串的集合，需要处理以下两种操作：
+每条边表示一个字符，根到节点的路径对应一个前缀。若总字符数为 L，最多新建 L 个节点；使用固定大小转移数组时空间为 O(L|Σ|)，字符集固定时可视为 O(L)。
 
-- `I x`：向集合中插入一次字符串 $x$。
-- `Q x`：查询字符串 $x$ 当前在集合中出现了多少次。
+### 精确查询与前缀查询
 
-所有字符串都只包含小写英文字母。
+插入、查找长度为 m 的单词均为 O(m)。插入结束后更新末尾节点的计数，精确查询读取末尾计数；前缀查询只要求路径完整。空节点编号与根节点的表示应保持一致。
 
-**输入格式**
+- [AcWing 835. Trie字符串统计](https://www.acwing.com/problem/content/837/) （AcWing基础课）：统计字符串出现次数，不能只判断对应路径是否存在。
+- [LeetCode 208. 实现 Trie (前缀树)](https://leetcode.cn/problems/implement-trie-prefix-tree/) （Hot100/面试150/CodeTop200）：search 检查终止标记，startsWith 只检查前缀路径。
 
-第一行包含一个整数 $N$，表示操作数量。
+### 含通配符的匹配
 
-接下来 $N$ 行，每行包含一个操作符和一个字符串，格式为 `I x` 或 `Q x`。
+普通字符只沿对应分支前进，点号枚举当前节点的所有子节点并递归匹配后缀。终点仍须检查完整单词标记；时间取决于实际访问的分支数，多个通配符时最坏呈指数增长。
 
-**输出格式**
+- [LeetCode 211. 添加与搜索单词 - 数据结构设计](https://leetcode.cn/problems/design-add-and-search-words-data-structure/) （面试150）：点号只匹配一个任意字母，不能当作任意长度的字符串。
 
-对于每个 `Q x` 操作输出一行一个整数，表示 $x$ 在集合中的出现次数。
+### 字典树与网格回溯
 
-**数据范围**
+先把全部单词建立成 Trie，再从每个格子出发深度优先搜索；当前路径不是任何单词的前缀时立即剪枝。标记并回溯恢复格子使用状态，找到单词后去重。总字符数 S、最长单词 L、网格 m×n 时，保守时间上界 O(S+mn·4ᴸ)，Trie 空间 O(S)。
 
-- $1 \le N \le 2 \times 10^4$
-- 所有操作中输入的字符串总长度不超过 $10^5$
-- 字符串只包含小写英文字母
+- [LeetCode 212. 单词搜索 II](https://leetcode.cn/problems/word-search-ii/) （面试150）：一个路径中每个格子只能使用一次，通过共享前缀同时搜索整个词表。
 
-**输入样例**
+## 二进制 Trie
 
-```text
-5
-I abc
-Q abc
-Q ab
-I ab
-Q ab
-```
+把非负整数按固定有效位宽从高到低插入，子节点只有 0 和 1。高位的收益严格大于所有低位之和，因此可以逐位贪心选择。
 
-**输出样例**
+### 最大异或配对
 
-```text
-1
-0
-1
-```
+查询 x 时优先选择与当前位相反的分支，没有该分支再走同位分支。若有效位数为 B，n 个数的插入与查询共 O(nB)，空间 O(nB)；AcWing 原题数值小于 2³¹，处理第 30 位到第 0 位。
 
-### 参考 Java 解法
+- [AcWing 143. 最大异或对](https://www.acwing.com/problem/content/145/) （AcWing基础课）：求一组非负整数中两个数的最大异或值。
 
-```java
-import java.util.*;
+## 隐式数字字典树
 
-public class Main {
-    private static final int ALPHABET_SIZE = 26;
-    private static final int MAX_TOTAL_LENGTH = 100000;
+把十进制整数当作字符串，字典序等价于从前缀 1 到 9 开始遍历数字 Trie。无需真正建树，可以直接计算某个前缀下面的节点数量。
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int operationCount = scanner.nextInt();
-        int[] children = new int[(MAX_TOTAL_LENGTH + 1) * ALPHABET_SIZE];
-        int[] terminalCount = new int[MAX_TOTAL_LENGTH + 1];
-        int nodeCount = 0;
-        StringBuilder answer = new StringBuilder();
+### 按前缀跳过整棵子树
 
-        for (int i = 0; i < operationCount; i++) {
-            String operation = scanner.next();
-            String word = scanner.next();
+统计前缀 p 下数字数量时逐层扩展区间 [p,p+1)，累加它与 [1,n+1) 的交集长度。若该子树大小不超过剩余步数，移动到下一前缀；否则进入 p×10 并扣除当前根。时间 O(log² n)，额外空间 O(1)，边界计算使用 long。
 
-            if (operation.charAt(0) == 'I') {
-                int node = 0;
-                for (int j = 0; j < word.length(); j++) {
-                    int letter = word.charAt(j) - 'a';
-                    int edge = node * ALPHABET_SIZE + letter;
-                    if (children[edge] == 0) {
-                        children[edge] = ++nodeCount;
-                    }
-                    node = children[edge];
-                }
-                terminalCount[node]++;
-            } else {
-                int node = 0;
-                boolean exists = true;
-                for (int j = 0; j < word.length(); j++) {
-                    int letter = word.charAt(j) - 'a';
-                    int nextNode = children[node * ALPHABET_SIZE + letter];
-                    if (nextNode == 0) {
-                        exists = false;
-                        break;
-                    }
-                    node = nextNode;
-                }
-                answer.append(exists ? terminalCount[node] : 0).append('\n');
-            }
-        }
-
-        System.out.print(answer);
-    }
-
-}
-```
-
-### 时空复杂度
-
-- 时间复杂度：$O(L)$，其中 $L$ 为所有操作中字符串长度之和，每个字符只沿 Trie 处理一次。
-- 空间复杂度：$O(L \cdot |\Sigma|)$，这里字符集大小 $|\Sigma|=26$；使用定长转移数组保存至多 $L+1$ 个节点。
-
-## [AcWing 143. 最大异或对](https://www.acwing.com/problem/content/145/)
-
-### 题目描述
-
-给定 $N$ 个非负整数 $A_1,A_2,\ldots,A_N$，从中选出两个数进行按位异或运算，求可能得到的最大结果。
-
-**输入格式**
-
-第一行包含一个整数 $N$。
-
-第二行包含 $N$ 个整数 $A_1,A_2,\ldots,A_N$。
-
-**输出格式**
-
-输出一个整数，表示任意两个给定整数异或后能够得到的最大值。
-
-**数据范围**
-
-- $1 \le N \le 10^5$
-- $0 \le A_i < 2^{31}$
-
-**输入样例**
-
-```text
-3
-1 2 3
-```
-
-**输出样例**
-
-```text
-3
-```
-
-### 参考 Java 解法
-
-```java
-import java.util.*;
-
-public class Main {
-    private static final int BIT_COUNT = 31;
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int maxNodeCount = n * BIT_COUNT + 1;
-        int[] children = new int[maxNodeCount * 2];
-        int nodeCount = 0;
-        int answer = 0;
-
-        for (int i = 0; i < n; i++) {
-            int value = scanner.nextInt();
-
-            int node = 0;
-            for (int bit = 30; bit >= 0; bit--) {
-                int currentBit = value >>> bit & 1;
-                int edge = node * 2 + currentBit;
-                if (children[edge] == 0) {
-                    children[edge] = ++nodeCount;
-                }
-                node = children[edge];
-            }
-
-            node = 0;
-            int xorValue = 0;
-            for (int bit = 30; bit >= 0; bit--) {
-                int currentBit = value >>> bit & 1;
-                int oppositeBit = currentBit ^ 1;
-                int oppositeNode = children[node * 2 + oppositeBit];
-
-                if (oppositeNode != 0) {
-                    xorValue |= 1 << bit;
-                    node = oppositeNode;
-                } else {
-                    node = children[node * 2 + currentBit];
-                }
-            }
-            answer = Math.max(answer, xorValue);
-        }
-
-        System.out.println(answer);
-    }
-
-}
-```
-
-### 时空复杂度
-
-- 时间复杂度：$O(31N)$，每个整数都按 $31$ 个有效二进制位插入和查询，可视为 $O(N)$。
-- 空间复杂度：$O(31N)$，二进制 Trie 最多为每个整数新建 $31$ 个节点。
+- [LeetCode 440. 字典序的第K小数字](https://leetcode.cn/problems/k-th-smallest-in-lexicographical-order/) （CodeTop200）：先把第 k 个转换为从根前缀 1 出发的 k-1 步，再决定横向跳过或下探。
